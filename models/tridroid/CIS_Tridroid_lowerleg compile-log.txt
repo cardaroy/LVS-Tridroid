@@ -1,0 +1,12 @@
+// Created by Crowbar 0.74
+
+  Compiling "CIS_Tridroid_lowerleg.mdl" ...
+    Output from compiler "C:\Program Files (x86)\Steam\steamapps\common\GarrysMod\bin\studiomdl.exe": 
+      StudioMDL.exe (Mar 16 2026) - Garry's Mod Edition
+      Adding filesystem addon 'c:\program files (x86)\steam\steamapps\common\garrysmod\garrysmod\addons\2'
+      Adding filesystem addon 'c:\program files (x86)\steam\steamapps\common\garrysmod\garrysmod\addons\lvs_tridroid'
+      qdir:    "c:\program files (x86)\steam\steamapps\common\garrysmod\garrysmod\addons\lvs_tridroid\models\tridroid\"
+      gamedir: "C:\Program Files (x86)\Steam\steamapps\common\GarrysMod\garrysmod\"
+      g_path:  "CIS_Tridroid_lowerleg.mdl"
+      ERROR: .qc or .dmx file should be specified to build.
+  ... Compiling "CIS_Tridroid_lowerleg.mdl" finished. Check above for any errors.

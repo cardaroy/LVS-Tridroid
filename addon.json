@@ -1,0 +1,10 @@
+{
+	"title"		: "[LVS] - Star Wars Tri-Droid",
+	"type"		: "vehicle",
+	"tags"		: [ "fun", "realism", "vehicle", "npc" ],
+	"ignore"	: [
+		"*.psd",
+		"*.vcproj",
+		"*.svn*"
+	]
+}
