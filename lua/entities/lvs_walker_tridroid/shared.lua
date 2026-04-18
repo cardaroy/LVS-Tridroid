@@ -11,7 +11,7 @@ ENT.VehicleSubCategory = "Walkers"
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= false
 
--- TODO: set actual model path
+
 ENT.MDL = "models/tridroid/CIS_Tridroid.mdl"
 ENT.GibModels = {
 	"models/tridroid/CIS_Tridroid_gib1.mdl",
@@ -27,7 +27,6 @@ ENT.AITEAM = 1
 ENT.MaxHealth = 5000
 
 ENT.ForceLinearMultiplier = 1
-
 ENT.ForceAngleMultiplier = 1
 ENT.ForceAngleDampingMultiplier = 1
 

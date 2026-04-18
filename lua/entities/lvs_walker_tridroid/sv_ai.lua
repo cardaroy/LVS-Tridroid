@@ -4,6 +4,8 @@ function ENT:RunAI()
 
 	local Target = self:AIGetTarget( 360 )
 
+	local MovementSpeed = 0.2
+
 	-- Ignore target if it's above or below the pitch threshold
 	if IsValid( Target ) then
 		local pitchToTarget = self:WorldToLocalAngles( (Target:GetPos() - self:GetPos()):Angle() ).p
@@ -12,27 +14,33 @@ function ENT:RunAI()
 		end
 	end
 
+	-- Start traces from the entity's center in world space
 	local StartPos = self:LocalToWorld( self:OBBCenter() )
 
 	local TraceFilter = self:GetCrosshairFilterEnts()
 
-	local Front = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:GetForward() * RangerLength } )
-	local FrontLeft = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,15,0) ):Forward() * RangerLength } )
-	local FrontRight = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,-15,0) ):Forward() * RangerLength } )
-	local FrontLeft1 = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,60,0) ):Forward() * RangerLength } )
-	local FrontRight1 = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,-60,0) ):Forward() * RangerLength } )
-	local FrontLeft2 = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,85,0) ):Forward() * RangerLength } )
-	local FrontRight2 = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,-85,0) ):Forward() * RangerLength } )
+	-- Cast 7 rays in a fan pattern to sense obstacles ahead
+	local Front = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:GetForward() * RangerLength } ) -- Dead ahead
+	local FrontLeft = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,15,0) ):Forward() * RangerLength } ) -- 15° left
+	local FrontRight = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,-15,0) ):Forward() * RangerLength } ) -- 15° right
+	local FrontLeft1 = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,60,0) ):Forward() * RangerLength } ) -- 60° left
+	local FrontRight1 = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,-60,0) ):Forward() * RangerLength } ) -- 60° right
+	local FrontLeft2 = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,85,0) ):Forward() * RangerLength } ) -- 85° left
+	local FrontRight2 = util.TraceLine( { start = StartPos, filter = TraceFilter, endpos = StartPos + self:LocalToWorldAngles( Angle(0,-85,0) ):Forward() * RangerLength } ) -- 85° right
 
+	-- Average all hit positions to get a movement target that steers away from nearby walls
 	local MovementTargetPos = (Front.HitPos + FrontLeft.HitPos + FrontRight.HitPos + FrontLeft1.HitPos + FrontRight1.HitPos + FrontLeft2.HitPos + FrontRight2.HitPos) / 7
 
+	--Change the speed here
 	if IsValid( Target ) then
-		MovementTargetPos = (MovementTargetPos + Target:GetPos()) * 0.5
+		MovementTargetPos = (MovementTargetPos + Target:GetPos()) * MovementSpeed
 	
 	end
 
 	self._smTargetPos = self._smTargetPos and self._smTargetPos + (MovementTargetPos - self._smTargetPos) * FrameTime() * 0.5 or MovementTargetPos
+	--self._smTargetPos = MovementTargetPos
 
+	
 	local TargetPosLocal = self:WorldToLocal( self._smTargetPos )
 
 	local Dir = math.Clamp( TargetPosLocal.y / 100, -1, 1 ) * 0.2 * math.abs( self:GetTargetSpeed() )

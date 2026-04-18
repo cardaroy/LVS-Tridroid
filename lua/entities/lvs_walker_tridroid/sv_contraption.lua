@@ -43,7 +43,7 @@ function ENT:CheckUpRight()
 	if self:IsPlayerHolding() then return end
 
 	-- Grace period: don't ragdoll within 2 seconds of spawn
-	if (self._SpawnTime or 0) + 2 > CurTime() then return end
+	--if (self._SpawnTime or 0) + 2 > CurTime() then return end
 
 	if self:HitGround() and self:AngleBetweenNormal( self:GetUp(), Vector(0,0,1) ) < 45 then
 		return
@@ -66,13 +66,16 @@ function ENT:ToggleGravity( PhysObj, Enable )
 	end
 end
 
+-- Enables/disables physics motion based on movement state and ground contact
 function ENT:CheckMotion( OnMoveableFloor )
+	-- Don't touch physics while ragdolled
 	if self:GetIsRagdoll() then
 		return
 	end
 
 	local TargetSpeed = self:GetTargetSpeed()
 
+	-- mark as not moving if airborne, otherwise moving if speed > 1
 	if not self:HitGround() then
 		self:SetIsMoving( false )
 	else
@@ -81,28 +84,33 @@ function ENT:CheckMotion( OnMoveableFloor )
 
 	local IsHeld = self:IsPlayerHolding()
 
+	-- force a minimum speed while physgunned so legs keep animating
 	if IsHeld then
 		self:SetTargetSpeed( 200 )
 	end
 
 	if self:HitGround() and not OnMoveableFloor then
+		-- On solid ground: only enable physics when moving or held
 		local enable = self:GetIsMoving() or IsHeld
 
 		local phys = self:GetPhysicsObject()
 
 		if not IsValid( phys ) then return end
 
+		-- Toggle motion only when state actually changes to avoid unnecessary Wake calls
 		if phys:IsMotionEnabled() ~= enable then
 			phys:EnableMotion( enable )
 			phys:Wake()
 		end
 	else
+		-- In air or on a moveable surface: also keep physics on if standing on something dynamic
 		local enable = self:GetIsMoving() or IsHeld or OnMoveableFloor
 
 		local phys = self:GetPhysicsObject()
 
 		if not IsValid( phys ) then return end
 
+		-- Only enable, never disable mid-air (let gravity/other forces resolve)
 		if not phys:IsMotionEnabled() then
 			phys:EnableMotion( enable )
 			phys:Wake()

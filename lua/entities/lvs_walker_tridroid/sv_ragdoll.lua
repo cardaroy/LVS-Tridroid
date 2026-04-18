@@ -34,24 +34,14 @@ function ENT:BecomeRagdoll()
 	local LegSegments = {
 		[1] = {
 			mdl = "models/tridroid/CIS_Tridroid_lowerleg.mdl",
-			pos = Vector(0,-24,-12),
-			ang = Angle(0,0,-21),
-		},
+			pos = Vector(230, 0, 230),
+			ang = Angle(-30,0,0),
+		} --[[
 		[2] = {
 			mdl = "models/tridroid/CIS_Tridroid_upperleg.mdl",
 			pos = Vector(0,-15,20),
 			ang = Angle(0,0,-17),
-		},
-		[3] = {
-			mdl = "models/tridroid/CIS_Tridroid_upperleg.mdl",
-			pos = Vector(0,-168,56),
-			ang = Angle(0,0,-18),
-		},
-		[4] = {
-			mdl = "models/tridroid/CIS_Tridroid_lowerleg.mdl",
-			pos = Vector(0,-268,-238),
-			ang = Angle(0,0,0),
-		},
+		}, --]]
 	}
 
 	-- 3 legs at 120 degree intervals
@@ -87,7 +77,7 @@ function ENT:BecomeRagdoll()
 
 		local ent = ents.Create( "lvs_walker_atte_component" )
 		-- TODO: set actual upper leg model
-		ent:SetModel( "models/blu/hsd_leg_2.mdl" )
+		ent:SetModel( "models/tridroid/CIS_Tridroid_upperleg.mdl" )
 		ent:SetPos( Att.Pos )
 		ent:SetAngles( self:LocalToWorldAngles( Angle(0,data.ang,0) ) )
 		ent:Spawn()
@@ -103,7 +93,7 @@ function ENT:BecomeRagdoll()
 		local Lock = 40
 		constraint.Axis( ent, self, 0, 0, Vector(0,0,0), self:WorldToLocal( ent:GetPos() ), 0, 0, 0, 0, Vector(0,0,1) ).DoNotDuplicate = true
 		constraint.AdvBallsocket(ent, self, 0, 0, Vector(0,0,0), Vector(0,0,0), 0, 0, -Lock, -Lock, -Lock, Lock, Lock, Lock, 0, 0, 0, 0, 1).DoNotDuplicate = true
-
+		
 		for id, legdata in ipairs( LegSegments ) do
 			local legent = ents.Create( "lvs_walker_atte_component" )
 			legent:SetModel( legdata.mdl )
@@ -128,7 +118,7 @@ function ENT:BecomeRagdoll()
 					constraint.AdvBallsocket(ent, legent, 0, 0, ent:WorldToLocal( AttData.Pos ), legent:WorldToLocal( AttData.Pos ), 0, 0, -Lock, -Lock, -Lock, Lock, Lock, Lock, math.Rand(-Fric,Fric), math.Rand(-Fric,Fric), math.Rand(-Fric,Fric), 0, 1).DoNotDuplicate = true
 				end
 			end
-
+			--[[
 			if id == 2 then
 				local AttID = ent:LookupAttachment( "upper" )
 				local AttData = ent:GetAttachment( AttID )
@@ -163,9 +153,12 @@ function ENT:BecomeRagdoll()
 				if not IsValid( shaft ) then continue end
 
 				constraint.AdvBallsocket(legent, shaft, 0, 0, Vector(0,0,0), shaft:WorldToLocal( legent:GetPos() ), 0, 0, -Lock, -Lock, -Lock, Lock, Lock, Lock, math.Rand(-Fric,Fric), math.Rand(-Fric,Fric), math.Rand(-Fric,Fric), 0, 1).DoNotDuplicate = true
-			end
+			end --]]
+			
+			
 		end
-	end
+	end 
+
 
 	self:ForceMotion()
 end

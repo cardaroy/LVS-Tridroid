@@ -7,6 +7,7 @@ function ENT:OnFrame()
 	self:PredictPoseParamaters()
 	self:DamageFX()
 	self:CalcHeadAim()
+--	self:CalcGunAim()
 end
 
 function ENT:DamageFX()
@@ -149,7 +150,63 @@ function ENT:CalcHeadAim()
 	--Initialise the smoothed head angle on first call (starts facing forward)
 	self._HeadAng = self._HeadAng or Angle(0,0,0)
 	--Smoothly interpolate the head angle towards the target angle for natural movement
-	self._HeadAng = LerpAngle( RealFrameTime() * 2, self._HeadAng, targetAng )
+	self._HeadAng = LerpAngle( RealFrameTime() * 4, self._HeadAng, targetAng )
 	--Apply the smoothed head angle to the head bone
 	self:ManipulateBoneAngles( headBone, self._HeadAng )
+
+	--For aiming the current turret bone
+	local gunBone = "gunA"
+
+	
+--	local gunTargetAng = Angle(-aimAng.x, 0, 0)
+
+	self._gunAng = self._gunAng or Angle(0,0,0)
+
+	if gunIndex == 1 then
+		gunBone = self:LookupBone("gunA")
+		gunTargetAng = Angle(0, 0, -aimAng.x)
+	elseif gunIndex == 2 then
+		gunBone = self:LookupBone("gunB")
+		gunTargetAng = Angle(aimAng.x, 0, 0)
+	elseif gunIndex == 0 then
+		gunBone = self:LookupBone("gunC")
+		gunTargetAng = Angle(-aimAng.x, 0, 0)
+	end
+
+	if not gunBone then return end
+
+--	local gunTargetAng = Angle(-aimAng.x, 0, 0)
+	self._gunAng = self._gunAng or Angle(0,0,0)
+
+	self._gunAng = LerpAngle( RealFrameTime() * 2, self._gunAng, gunTargetAng)
+
+	self:ManipulateBoneAngles( gunBone, self._gunAng )
 end
+--[[
+function ENT:CalcGunAim()
+	--gun bones are "gunA", "gunB", "gunC"
+
+	local aimDir = self:GetAimVector()
+	local aimAng = self:WorldToLocalAngles( aimDir:Angle() )
+
+	local gunIndex = self:GetNWInt("GunIndex", 0)
+
+	local gunBone
+
+	if gunIndex == 0 then
+		gunBone = "gunA"
+	elseif gunIndex == 1 then
+		gunBone = "gunB"
+	elseif gunIndex == 2 then
+		gunBone = "gunC"
+	end
+
+	if not gunBone then return end
+
+	self._gunAng = self._gunAng or Angle(0,0,0)
+
+	self._gunAng = LerpAngle( RealFrameTime() * 2, self._gunAng, targetAng)
+
+	self:ManipulateBoneAngles( gunBone, self._gunAng )
+end
+--]]

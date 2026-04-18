@@ -10,7 +10,7 @@ include("sv_ragdoll.lua")
 include("sv_ai.lua")
 include("sh_weapons.lua")
 
-ENT.SpawnNormalOffset = 200
+ENT.SpawnNormalOffset = 50
 ENT.SpawnNormalOffsetSpawner = 250
 
 function ENT:OnSpawn( PObj )

@@ -126,6 +126,7 @@ else
 			EntTable.UpdateNow = nil
 			EntTable.MoveLeg = true
 			EntTable.MoveDelta = 0
+			EntTable._StepTarget = trace.HitPos
 		end
 
 		local ShaftOffset = 0
@@ -161,14 +162,14 @@ else
 				sound.Play( Sound( "lvs/vehicles/hsd/footstep0"..math.random(1,3)..".wav" ), ENDPOS, SNDLVL_100dB )
 
 				local effectdata = EffectData()
-					effectdata:SetOrigin( trace.HitPos )
+					effectdata:SetOrigin( EntTable._StepTarget )
 				util.Effect( "lvs_walker_stomp", effectdata )
 
 				sound.Play( Sound( "lvs/vehicles/hsd/hydraulic_start0"..math.random(1,2)..".wav" ), self:GetPos(), SNDLVL_100dB )
 			else
 				EntTable.MoveDelta = math.min( EntTable.MoveDelta + RealFrameTime() * 2, 1 )
 
-				EntTable._smPos = LerpVector( EntTable.MoveDelta, EntTable._OldPos, trace.HitPos )
+				EntTable._smPos = LerpVector( EntTable.MoveDelta, EntTable._OldPos, EntTable._StepTarget )
 
 				local MulZ = math.max( math.sin( EntTable.MoveDelta * math.pi ), 0 )
 
