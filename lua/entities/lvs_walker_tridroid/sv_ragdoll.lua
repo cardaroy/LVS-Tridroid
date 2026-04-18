@@ -112,11 +112,10 @@ function ENT:BecomeRagdoll()
 			self.Constrainer[ Index ] = legent
 
 			if id == 1 then
-				local AttID = ent:LookupAttachment( "lower" )
-				local AttData = ent:GetAttachment( AttID )
-				if AttData then
-					constraint.AdvBallsocket(ent, legent, 0, 0, ent:WorldToLocal( AttData.Pos ), legent:WorldToLocal( AttData.Pos ), 0, 0, -Lock, -Lock, -Lock, Lock, Lock, Lock, math.Rand(-Fric,Fric), math.Rand(-Fric,Fric), math.Rand(-Fric,Fric), 0, 1).DoNotDuplicate = true
-				end
+				-- Pivot at the knee: legent was spawned at ent:LocalToWorld(legdata.pos),
+				-- so legent's origin IS the knee. Use that as the pivot on both sides.
+				local kneeLocal = ent:WorldToLocal( legent:GetPos() )
+				constraint.AdvBallsocket(ent, legent, 0, 0, kneeLocal, Vector(0,0,0), 0, 0, -Lock, -Lock, -Lock, Lock, Lock, Lock, math.Rand(-Fric,Fric), math.Rand(-Fric,Fric), math.Rand(-Fric,Fric), 0, 1).DoNotDuplicate = true
 			end
 			--[[
 			if id == 2 then
