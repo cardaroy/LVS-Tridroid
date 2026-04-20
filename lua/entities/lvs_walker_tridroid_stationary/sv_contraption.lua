@@ -9,7 +9,7 @@ function ENT:ContraptionThink()
 	self:CheckUpRight()
 	self:CheckActive()
 	self:CheckMotion( OnMoveableFloor )
-	--self:UpdateLegs()
+	self:UpdateLegs()
 end
 
 function ENT:UpdateLegs()
@@ -86,7 +86,7 @@ function ENT:CheckMotion( OnMoveableFloor )
 
 	-- force a minimum speed while physgunned so legs keep animating
 	if IsHeld then
-		self:SetTargetSpeed( 200 )
+		self:SetTargetSpeed( 0 )
 	end
 
 	if self:HitGround() and not OnMoveableFloor then

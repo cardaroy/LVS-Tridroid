@@ -9,7 +9,7 @@ function ENT:RunAI()
 	-- Ignore target if it's above or below the pitch threshold
 	if IsValid( Target ) then
 		local pitchToTarget = self:WorldToLocalAngles( (Target:GetPos() - self:GetPos()):Angle() ).p
-		if pitchToTarget > 30 or pitchToTarget < -30 then
+		if pitchToTarget > 45 or pitchToTarget < -45 then
 			Target = NULL
 		end
 	end
