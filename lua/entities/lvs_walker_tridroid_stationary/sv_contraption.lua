@@ -86,7 +86,7 @@ function ENT:CheckMotion( OnMoveableFloor )
 
 	-- force a minimum speed while physgunned so legs keep animating
 	if IsHeld then
-		self:SetTargetSpeed( 0 )
+		self:SetTargetSpeed( 1 )
 	end
 
 	if self:HitGround() and not OnMoveableFloor then

@@ -12,11 +12,11 @@ ENT.Spawnable		= true
 ENT.AdminSpawnable	= false
 
 
-ENT.MDL = "models/tridroid/CIS_Tridroid.mdl"
+ENT.MDL = "models/tridroid/cis_tridroid.mdl"
 ENT.GibModels = {
-	"models/tridroid/CIS_Tridroid.mdl",
-	"models/tridroid/CIS_Tridroid_lowerleg.mdl",
-	"models/tridroid/CIS_Tridroid_upperleg.mdl",
+	"models/tridroid/cis_tridroid.mdl",
+	"models/tridroid/cis_tridroid_lowerleg.mdl",
+	"models/tridroid/cis_tridroid_upperleg.mdl",
 }
 
 ENT.AITEAM = 1

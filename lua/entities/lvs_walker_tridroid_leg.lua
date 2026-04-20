@@ -10,7 +10,7 @@ end
 if SERVER then
 	function ENT:Initialize()
 		-- TODO: set actual upper leg model
-		self:SetModel( "models/tridroid/CIS_Tridroid_upperleg.mdl" )
+		self:SetModel( "models/tridroid/cis_tridroid_upperleg.mdl" )
 		self:SetMoveType( MOVETYPE_NONE )
 		self:SetSolid( SOLID_NONE )
 	end
@@ -20,7 +20,7 @@ if SERVER then
 	end
 else
 	-- Lower leg model
-	ENT.LowerLegModel = "models/tridroid/CIS_Tridroid_lowerleg.mdl"
+	ENT.LowerLegModel = "models/tridroid/cis_tridroid_lowerleg.mdl"
 
 	-- Local offset from upper leg origin to knee pivot point
 	-- This is where the lower leg attaches to the upper leg

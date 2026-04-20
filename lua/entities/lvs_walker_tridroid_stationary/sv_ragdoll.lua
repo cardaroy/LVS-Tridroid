@@ -33,12 +33,12 @@ function ENT:BecomeRagdoll()
 	-- TODO: adjust leg segment models/positions/angles to match tridroid model
 	local LegSegments = {
 		[1] = {
-			mdl = "models/tridroid/CIS_Tridroid_lowerleg.mdl",
+			mdl = "models/tridroid/cis_tridroid_lowerleg.mdl",
 			pos = Vector(230, 0, 230),
 			ang = Angle(-30,0,0),
 		} --[[
 		[2] = {
-			mdl = "models/tridroid/CIS_Tridroid_upperleg.mdl",
+			mdl = "models/tridroid/cis_tridroid_upperleg.mdl",
 			pos = Vector(0,-15,20),
 			ang = Angle(0,0,-17),
 		}, --]]
@@ -77,7 +77,7 @@ function ENT:BecomeRagdoll()
 
 		local ent = ents.Create( "lvs_walker_atte_component" )
 		-- TODO: set actual upper leg model
-		ent:SetModel( "models/tridroid/CIS_Tridroid_upperleg.mdl" )
+		ent:SetModel( "models/tridroid/cis_tridroid_upperleg.mdl" )
 		ent:SetPos( Att.Pos )
 		ent:SetAngles( self:LocalToWorldAngles( Angle(0,data.ang,0) ) )
 		ent:Spawn()
